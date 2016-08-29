@@ -23228,6 +23228,12 @@
 	      _FilterLink2.default,
 	      { filter: 'SHOW_COMPLETED' },
 	      'Completed'
+	    ),
+	    ", ",
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_NONE' },
+	      'Hide'
 	    )
 	  );
 	};
@@ -23484,6 +23490,8 @@
 	      return todos.filter(function (t) {
 	        return !t.completed;
 	      });
+	    case 'SHOW_NONE':
+	      return [];
 	  }
 	}; /**
 	    * Created by akaimo on 2016/08/27.

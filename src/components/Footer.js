@@ -20,6 +20,10 @@ const Footer = () => (
     <FilterLink filter="SHOW_COMPLETED">
       Completed
     </FilterLink>
+    {", "}
+    <FilterLink filter="SHOW_NONE">
+      Hide
+    </FilterLink>
   </p>
 )
 
