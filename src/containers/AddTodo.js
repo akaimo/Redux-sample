@@ -4,7 +4,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { addTodo } from '../actions'
+import { addTodo, deleteTodo } from '../actions'
 
 let AddTodo = ({dispatch}) => {
   let input
@@ -26,6 +26,14 @@ let AddTodo = ({dispatch}) => {
           Add Todo
         </button>
       </form>
+
+      <button onClick={e => {
+        e.preventDefault()
+        dispatch(deleteTodo())
+        input.value = ''
+      }}>
+        Delete
+      </button>
     </div>
   )
 }

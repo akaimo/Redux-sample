@@ -66,9 +66,17 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
+	var _reduxLogger = __webpack_require__(207);
+
+	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var store = (0, _redux.createStore)(_reducers2.default);
+	var logger = (0, _reduxLogger2.default)(); /**
+	                                            * Created by akaimo on 2016/08/27.
+	                                            */
+
+	var store = (0, _redux.createStore)(_reducers2.default, (0, _redux.applyMiddleware)(logger));
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -23037,7 +23045,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -23047,44 +23055,46 @@
 	 */
 
 	var todo = function todo() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-	    var action = arguments[1];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var action = arguments[1];
 
-	    switch (action.type) {
-	        case 'ADD_TODO':
-	            return {
-	                id: action.id,
-	                text: action.text,
-	                completed: false
-	            };
-	        case 'TOGGLE_TODO':
-	            if (state.id !== action.id) {
-	                return state;
-	            }
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return {
+	        id: action.id,
+	        text: action.text,
+	        completed: false
+	      };
+	    case 'TOGGLE_TODO':
+	      if (state.id !== action.id) {
+	        return state;
+	      }
 
-	            return Object.assign({}, state, {
-	                completed: !state.completed
-	            });
+	      return Object.assign({}, state, {
+	        completed: !state.completed
+	      });
 
-	        default:
-	            return state;
-	    }
+	    default:
+	      return state;
+	  }
 	};
 
 	var todos = function todos() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-	    var action = arguments[1];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	  var action = arguments[1];
 
-	    switch (action.type) {
-	        case 'ADD_TODO':
-	            return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
-	        case 'TOGGLE_TODO':
-	            return state.map(function (t) {
-	                return todo(t, action);
-	            });
-	        default:
-	            return state;
-	    }
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
+	    case 'DELETE_TODO':
+	      return [];
+	    case 'TOGGLE_TODO':
+	      return state.map(function (t) {
+	        return todo(t, action);
+	      });
+	    default:
+	      return state;
+	  }
 	};
 
 	exports.default = todos;
@@ -23100,22 +23110,22 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	/**
 	 * Created by akaimo on 2016/08/27.
 	 */
 
 	var visibilityFilter = function visibilityFilter() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
-	    var action = arguments[1];
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? 'SHOW_ALL' : arguments[0];
+	  var action = arguments[1];
 
-	    switch (action.type) {
-	        case 'SET_VISIBILITY_FILTER':
-	            return action.filter;
-	        default:
-	            return state;
-	    }
+	  switch (action.type) {
+	    case 'SET_VISIBILITY_FILTER':
+	      return action.filter;
+	    default:
+	      return state;
+	  }
 	};
 
 	exports.default = visibilityFilter;
@@ -23131,7 +23141,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -23142,11 +23152,11 @@
 
 	var _Footer2 = _interopRequireDefault(_Footer);
 
-	var _AddTodo = __webpack_require__(206);
+	var _AddTodo = __webpack_require__(203);
 
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
 
-	var _VisibleTodoList = __webpack_require__(203);
+	var _VisibleTodoList = __webpack_require__(204);
 
 	var _VisibleTodoList2 = _interopRequireDefault(_VisibleTodoList);
 
@@ -23157,13 +23167,13 @@
 	 */
 
 	var App = function App() {
-	    return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(_AddTodo2.default, null),
-	        _react2.default.createElement(_VisibleTodoList2.default, null),
-	        _react2.default.createElement(_Footer2.default, null)
-	    );
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_AddTodo2.default, null),
+	    _react2.default.createElement(_VisibleTodoList2.default, null),
+	    _react2.default.createElement(_Footer2.default, null)
+	  );
 	};
 
 	exports.default = App;
@@ -23179,7 +23189,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -23197,29 +23207,29 @@
 	 */
 
 	var Footer = function Footer() {
-	    return _react2.default.createElement(
-	        'p',
-	        null,
-	        'Show:',
-	        " ",
-	        _react2.default.createElement(
-	            _FilterLink2.default,
-	            { filter: 'SHOW_ALL' },
-	            'All'
-	        ),
-	        ", ",
-	        _react2.default.createElement(
-	            _FilterLink2.default,
-	            { filter: 'SHOW_ACTIVE' },
-	            'Active'
-	        ),
-	        ", ",
-	        _react2.default.createElement(
-	            _FilterLink2.default,
-	            { filter: 'SHOW_COMPLETED' },
-	            'Completed'
-	        )
-	    );
+	  return _react2.default.createElement(
+	    'p',
+	    null,
+	    'Show:',
+	    " ",
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_ALL' },
+	      'All'
+	    ),
+	    ", ",
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_ACTIVE' },
+	      'Active'
+	    ),
+	    ", ",
+	    _react2.default.createElement(
+	      _FilterLink2.default,
+	      { filter: 'SHOW_COMPLETED' },
+	      'Completed'
+	    )
+	  );
 	};
 
 	exports.default = Footer;
@@ -23235,7 +23245,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _reactRedux = __webpack_require__(172);
@@ -23249,19 +23259,19 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var mapStateToProps = function mapStateToProps(state, ownProps) {
-	    return {
-	        active: ownProps.filter === state.visibilityFilter
-	    };
+	  return {
+	    active: ownProps.filter === state.visibilityFilter
+	  };
 	}; /**
 	    * Created by akaimo on 2016/08/27.
 	    */
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
-	    return {
-	        onClick: function onClick() {
-	            dispatch((0, _actions.setVisibilityFilter)(ownProps.filter));
-	        }
-	    };
+	  return {
+	    onClick: function onClick() {
+	      dispatch((0, _actions.setVisibilityFilter)(ownProps.filter));
+	    }
+	  };
 	};
 
 	var FilterLink = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Link2.default);
@@ -23279,7 +23289,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	/**
 	 * Created by akaimo on 2016/08/27.
@@ -23287,25 +23297,31 @@
 
 	var nextTodoId = 0;
 	var addTodo = exports.addTodo = function addTodo(text) {
-	    return {
-	        type: 'ADD_TODO',
-	        id: nextTodoId++,
-	        text: text
-	    };
+	  return {
+	    type: 'ADD_TODO',
+	    id: nextTodoId++,
+	    text: text
+	  };
+	};
+
+	var deleteTodo = exports.deleteTodo = function deleteTodo() {
+	  return {
+	    type: 'DELETE_TODO'
+	  };
 	};
 
 	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
-	    return {
-	        type: 'SET_VISIBILITY_FILTER',
-	        filter: filter
-	    };
+	  return {
+	    type: 'SET_VISIBILITY_FILTER',
+	    filter: filter
+	  };
 	};
 
 	var toggleTodo = exports.toggleTodo = function toggleTodo(id) {
-	    return {
-	        type: 'TOGGLE_TODO',
-	        id: id
-	    };
+	  return {
+	    type: 'TOGGLE_TODO',
+	    id: id
+	  };
 	};
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -23319,7 +23335,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -23329,36 +23345,36 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Link = function Link(_ref) {
-	    var active = _ref.active;
-	    var children = _ref.children;
-	    var _onClick = _ref.onClick;
+	  var active = _ref.active;
+	  var children = _ref.children;
+	  var _onClick = _ref.onClick;
 
-	    if (active) {
-	        return _react2.default.createElement(
-	            "span",
-	            null,
-	            children
-	        );
-	    }
-
+	  if (active) {
 	    return _react2.default.createElement(
-	        "a",
-	        { href: "#",
-	            onClick: function onClick(e) {
-	                e.preventDefault();
-	                _onClick();
-	            }
-	        },
-	        children
+	      "span",
+	      null,
+	      children
 	    );
+	  }
+
+	  return _react2.default.createElement(
+	    "a",
+	    { href: "#",
+	      onClick: function onClick(e) {
+	        e.preventDefault();
+	        _onClick();
+	      }
+	    },
+	    children
+	  );
 	}; /**
 	    * Created by akaimo on 2016/08/27.
 	    */
 
 	Link.propTypes = {
-	    active: _react.PropTypes.bool.isRequired,
-	    children: _react.PropTypes.node.isRequired,
-	    onClick: _react.PropTypes.func.isRequired
+	  active: _react.PropTypes.bool.isRequired,
+	  children: _react.PropTypes.node.isRequired,
+	  onClick: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = Link;
@@ -23374,169 +23390,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _reactRedux = __webpack_require__(172);
-
-	var _actions = __webpack_require__(201);
-
-	var _TodoList = __webpack_require__(204);
-
-	var _TodoList2 = _interopRequireDefault(_TodoList);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var getVisibleTodos = function getVisibleTodos(todos, filter) {
-	    switch (filter) {
-	        case 'SHOW_ALL':
-	            return todos;
-	        case 'SHOW_COMPLETED':
-	            return todos.filter(function (t) {
-	                return t.completed;
-	            });
-	        case 'SHOW_ACTIVE':
-	            return todos.filter(function (t) {
-	                return !t.completed;
-	            });
-	    }
-	}; /**
-	    * Created by akaimo on 2016/08/27.
-	    */
-
-	var mapStateToProps = function mapStateToProps(state) {
-	    return {
-	        todos: getVisibleTodos(state.todos, state.visibilityFilter)
-	    };
-	};
-
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	    return {
-	        onTodoClick: function onTodoClick(id) {
-	            dispatch((0, _actions.toggleTodo)(id));
-	        }
-	    };
-	};
-
-	var VisibleTodoList = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TodoList2.default);
-
-	exports.default = VisibleTodoList;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "VisibleTodoList.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 204 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
-	                                                                                                                                                                                                                                                                   * Created by akaimo on 2016/08/27.
-	                                                                                                                                                                                                                                                                   */
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _Todo = __webpack_require__(205);
-
-	var _Todo2 = _interopRequireDefault(_Todo);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var TodoList = function TodoList(_ref) {
-	    var todos = _ref.todos;
-	    var onTodoClick = _ref.onTodoClick;
-	    return _react2.default.createElement(
-	        'ul',
-	        null,
-	        todos.map(function (todo) {
-	            return _react2.default.createElement(_Todo2.default, _extends({
-	                key: todo.id
-	            }, todo, {
-	                onClick: function onClick() {
-	                    return onTodoClick(todo.id);
-	                }
-	            }));
-	        })
-	    );
-	};
-
-	TodoList.propTypes = {
-	    todos: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-	        id: _react.PropTypes.number.isRequired,
-	        completed: _react.PropTypes.bool.isRequired,
-	        text: _react.PropTypes.string.isRequired
-	    }).isRequired).isRequired,
-	    onTodoClick: _react.PropTypes.func.isRequired
-	};
-
-	exports.default = TodoList;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "TodoList.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 205 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Todo = function Todo(_ref) {
-	    var onClick = _ref.onClick;
-	    var completed = _ref.completed;
-	    var text = _ref.text;
-	    return _react2.default.createElement(
-	        'li',
-	        {
-	            onClick: onClick,
-	            style: {
-	                textDecoration: completed ? 'line-through' : 'none'
-	            }
-	        },
-	        text
-	    );
-	}; /**
-	    * Created by akaimo on 2016/08/27.
-	    */
-
-	Todo.propTypes = {
-	    onClick: _react.PropTypes.func.isRequired,
-	    completed: _react.PropTypes.bool.isRequired,
-	    text: _react.PropTypes.string.isRequired
-	};
-
-	exports.default = Todo;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Todo.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _react = __webpack_require__(1);
@@ -23550,33 +23404,42 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var AddTodo = function AddTodo(_ref) {
-	    var dispatch = _ref.dispatch;
+	  var dispatch = _ref.dispatch;
 
-	    var input = void 0;
+	  var input = void 0;
 
-	    return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	            'form',
-	            { onSubmit: function onSubmit(e) {
-	                    e.preventDefault();
-	                    if (!input.value.trim()) {
-	                        return;
-	                    }
-	                    dispatch((0, _actions.addTodo)(input.value));
-	                    input.value = '';
-	                } },
-	            _react2.default.createElement('input', { ref: function ref(node) {
-	                    input = node;
-	                } }),
-	            _react2.default.createElement(
-	                'button',
-	                { type: 'submit' },
-	                'Add Todo'
-	            )
-	        )
-	    );
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'form',
+	      { onSubmit: function onSubmit(e) {
+	          e.preventDefault();
+	          if (!input.value.trim()) {
+	            return;
+	          }
+	          dispatch((0, _actions.addTodo)(input.value));
+	          input.value = '';
+	        } },
+	      _react2.default.createElement('input', { ref: function ref(node) {
+	          input = node;
+	        } }),
+	      _react2.default.createElement(
+	        'button',
+	        { type: 'submit' },
+	        'Add Todo'
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'button',
+	      { onClick: function onClick(e) {
+	          e.preventDefault();
+	          dispatch((0, _actions.deleteTodo)());
+	          input.value = '';
+	        } },
+	      'Delete'
+	    )
+	  );
 	}; /**
 	    * Created by akaimo on 2016/08/27.
 	    */
@@ -23586,6 +23449,401 @@
 	exports.default = AddTodo;
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "AddTodo.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 204 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(172);
+
+	var _actions = __webpack_require__(201);
+
+	var _TodoList = __webpack_require__(205);
+
+	var _TodoList2 = _interopRequireDefault(_TodoList);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var getVisibleTodos = function getVisibleTodos(todos, filter) {
+	  switch (filter) {
+	    case 'SHOW_ALL':
+	      return todos;
+	    case 'SHOW_COMPLETED':
+	      return todos.filter(function (t) {
+	        return t.completed;
+	      });
+	    case 'SHOW_ACTIVE':
+	      return todos.filter(function (t) {
+	        return !t.completed;
+	      });
+	  }
+	}; /**
+	    * Created by akaimo on 2016/08/27.
+	    */
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    todos: getVisibleTodos(state.todos, state.visibilityFilter)
+	  };
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    onTodoClick: function onTodoClick(id) {
+	      dispatch((0, _actions.toggleTodo)(id));
+	    }
+	  };
+	};
+
+	var VisibleTodoList = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TodoList2.default);
+
+	exports.default = VisibleTodoList;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "VisibleTodoList.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * Created by akaimo on 2016/08/27.
+	                                                                                                                                                                                                                                                                   */
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Todo = __webpack_require__(206);
+
+	var _Todo2 = _interopRequireDefault(_Todo);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var TodoList = function TodoList(_ref) {
+	  var todos = _ref.todos;
+	  var onTodoClick = _ref.onTodoClick;
+	  return _react2.default.createElement(
+	    'ul',
+	    null,
+	    todos.map(function (todo) {
+	      return _react2.default.createElement(_Todo2.default, _extends({
+	        key: todo.id
+	      }, todo, {
+	        onClick: function onClick() {
+	          return onTodoClick(todo.id);
+	        }
+	      }));
+	    })
+	  );
+	};
+
+	TodoList.propTypes = {
+	  todos: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+	    id: _react.PropTypes.number.isRequired,
+	    completed: _react.PropTypes.bool.isRequired,
+	    text: _react.PropTypes.string.isRequired
+	  }).isRequired).isRequired,
+	  onTodoClick: _react.PropTypes.func.isRequired
+	};
+
+	exports.default = TodoList;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "TodoList.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Todo = function Todo(_ref) {
+	  var onClick = _ref.onClick;
+	  var completed = _ref.completed;
+	  var text = _ref.text;
+	  return _react2.default.createElement(
+	    'li',
+	    {
+	      onClick: onClick,
+	      style: {
+	        textDecoration: completed ? 'line-through' : 'none'
+	      }
+	    },
+	    text
+	  );
+	}; /**
+	    * Created by akaimo on 2016/08/27.
+	    */
+
+	Todo.propTypes = {
+	  onClick: _react.PropTypes.func.isRequired,
+	  completed: _react.PropTypes.bool.isRequired,
+	  text: _react.PropTypes.string.isRequired
+	};
+
+	exports.default = Todo;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/shu/Desktop/redux-sample/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Todo.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 207 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	var repeat = function repeat(str, times) {
+	  return new Array(times + 1).join(str);
+	};
+	var pad = function pad(num, maxLength) {
+	  return repeat("0", maxLength - num.toString().length) + num;
+	};
+	var formatTime = function formatTime(time) {
+	  return "@ " + pad(time.getHours(), 2) + ":" + pad(time.getMinutes(), 2) + ":" + pad(time.getSeconds(), 2) + "." + pad(time.getMilliseconds(), 3);
+	};
+
+	// Use the new performance api to get better precision if available
+	var timer = typeof performance !== "undefined" && typeof performance.now === "function" ? performance : Date;
+
+	/**
+	 * parse the level option of createLogger
+	 *
+	 * @property {string | function | object} level - console[level]
+	 * @property {object} action
+	 * @property {array} payload
+	 * @property {string} type
+	 */
+
+	function getLogLevel(level, action, payload, type) {
+	  switch (typeof level === "undefined" ? "undefined" : _typeof(level)) {
+	    case "object":
+	      return typeof level[type] === "function" ? level[type].apply(level, _toConsumableArray(payload)) : level[type];
+	    case "function":
+	      return level(action);
+	    default:
+	      return level;
+	  }
+	}
+
+	/**
+	 * Creates logger with followed options
+	 *
+	 * @namespace
+	 * @property {object} options - options for logger
+	 * @property {string | function | object} options.level - console[level]
+	 * @property {boolean} options.duration - print duration of each action?
+	 * @property {boolean} options.timestamp - print timestamp with each action?
+	 * @property {object} options.colors - custom colors
+	 * @property {object} options.logger - implementation of the `console` API
+	 * @property {boolean} options.logErrors - should errors in action execution be caught, logged, and re-thrown?
+	 * @property {boolean} options.collapsed - is group collapsed?
+	 * @property {boolean} options.predicate - condition which resolves logger behavior
+	 * @property {function} options.stateTransformer - transform state before print
+	 * @property {function} options.actionTransformer - transform action before print
+	 * @property {function} options.errorTransformer - transform error before print
+	 */
+
+	function createLogger() {
+	  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var _options$level = options.level;
+	  var level = _options$level === undefined ? "log" : _options$level;
+	  var _options$logger = options.logger;
+	  var logger = _options$logger === undefined ? console : _options$logger;
+	  var _options$logErrors = options.logErrors;
+	  var logErrors = _options$logErrors === undefined ? true : _options$logErrors;
+	  var collapsed = options.collapsed;
+	  var predicate = options.predicate;
+	  var _options$duration = options.duration;
+	  var duration = _options$duration === undefined ? false : _options$duration;
+	  var _options$timestamp = options.timestamp;
+	  var timestamp = _options$timestamp === undefined ? true : _options$timestamp;
+	  var transformer = options.transformer;
+	  var _options$stateTransfo = options.stateTransformer;
+	  var // deprecated
+	  stateTransformer = _options$stateTransfo === undefined ? function (state) {
+	    return state;
+	  } : _options$stateTransfo;
+	  var _options$actionTransf = options.actionTransformer;
+	  var actionTransformer = _options$actionTransf === undefined ? function (actn) {
+	    return actn;
+	  } : _options$actionTransf;
+	  var _options$errorTransfo = options.errorTransformer;
+	  var errorTransformer = _options$errorTransfo === undefined ? function (error) {
+	    return error;
+	  } : _options$errorTransfo;
+	  var _options$colors = options.colors;
+	  var colors = _options$colors === undefined ? {
+	    title: function title() {
+	      return "#000000";
+	    },
+	    prevState: function prevState() {
+	      return "#9E9E9E";
+	    },
+	    action: function action() {
+	      return "#03A9F4";
+	    },
+	    nextState: function nextState() {
+	      return "#4CAF50";
+	    },
+	    error: function error() {
+	      return "#F20404";
+	    }
+	  } : _options$colors;
+
+	  // exit if console undefined
+
+	  if (typeof logger === "undefined") {
+	    return function () {
+	      return function (next) {
+	        return function (action) {
+	          return next(action);
+	        };
+	      };
+	    };
+	  }
+
+	  if (transformer) {
+	    console.error("Option 'transformer' is deprecated, use stateTransformer instead");
+	  }
+
+	  var logBuffer = [];
+	  function printBuffer() {
+	    logBuffer.forEach(function (logEntry, key) {
+	      var started = logEntry.started;
+	      var startedTime = logEntry.startedTime;
+	      var action = logEntry.action;
+	      var prevState = logEntry.prevState;
+	      var error = logEntry.error;
+	      var took = logEntry.took;
+	      var nextState = logEntry.nextState;
+
+	      var nextEntry = logBuffer[key + 1];
+	      if (nextEntry) {
+	        nextState = nextEntry.prevState;
+	        took = nextEntry.started - started;
+	      }
+	      // message
+	      var formattedAction = actionTransformer(action);
+	      var isCollapsed = typeof collapsed === "function" ? collapsed(function () {
+	        return nextState;
+	      }, action) : collapsed;
+
+	      var formattedTime = formatTime(startedTime);
+	      var titleCSS = colors.title ? "color: " + colors.title(formattedAction) + ";" : null;
+	      var title = "action " + (timestamp ? formattedTime : "") + " " + formattedAction.type + " " + (duration ? "(in " + took.toFixed(2) + " ms)" : "");
+
+	      // render
+	      try {
+	        if (isCollapsed) {
+	          if (colors.title) logger.groupCollapsed("%c " + title, titleCSS);else logger.groupCollapsed(title);
+	        } else {
+	          if (colors.title) logger.group("%c " + title, titleCSS);else logger.group(title);
+	        }
+	      } catch (e) {
+	        logger.log(title);
+	      }
+
+	      var prevStateLevel = getLogLevel(level, formattedAction, [prevState], "prevState");
+	      var actionLevel = getLogLevel(level, formattedAction, [formattedAction], "action");
+	      var errorLevel = getLogLevel(level, formattedAction, [error, prevState], "error");
+	      var nextStateLevel = getLogLevel(level, formattedAction, [nextState], "nextState");
+
+	      if (prevStateLevel) {
+	        if (colors.prevState) logger[prevStateLevel]("%c prev state", "color: " + colors.prevState(prevState) + "; font-weight: bold", prevState);else logger[prevStateLevel]("prev state", prevState);
+	      }
+
+	      if (actionLevel) {
+	        if (colors.action) logger[actionLevel]("%c action", "color: " + colors.action(formattedAction) + "; font-weight: bold", formattedAction);else logger[actionLevel]("action", formattedAction);
+	      }
+
+	      if (error && errorLevel) {
+	        if (colors.error) logger[errorLevel]("%c error", "color: " + colors.error(error, prevState) + "; font-weight: bold", error);else logger[errorLevel]("error", error);
+	      }
+
+	      if (nextStateLevel) {
+	        if (colors.nextState) logger[nextStateLevel]("%c next state", "color: " + colors.nextState(nextState) + "; font-weight: bold", nextState);else logger[nextStateLevel]("next state", nextState);
+	      }
+
+	      try {
+	        logger.groupEnd();
+	      } catch (e) {
+	        logger.log("—— log end ——");
+	      }
+	    });
+	    logBuffer.length = 0;
+	  }
+
+	  return function (_ref) {
+	    var getState = _ref.getState;
+	    return function (next) {
+	      return function (action) {
+	        // exit early if predicate function returns false
+	        if (typeof predicate === "function" && !predicate(getState, action)) {
+	          return next(action);
+	        }
+
+	        var logEntry = {};
+	        logBuffer.push(logEntry);
+
+	        logEntry.started = timer.now();
+	        logEntry.startedTime = new Date();
+	        logEntry.prevState = stateTransformer(getState());
+	        logEntry.action = action;
+
+	        var returnedValue = undefined;
+	        if (logErrors) {
+	          try {
+	            returnedValue = next(action);
+	          } catch (e) {
+	            logEntry.error = errorTransformer(e);
+	          }
+	        } else {
+	          returnedValue = next(action);
+	        }
+
+	        logEntry.took = timer.now() - logEntry.started;
+	        logEntry.nextState = stateTransformer(getState());
+
+	        printBuffer();
+
+	        if (logEntry.error) throw logEntry.error;
+	        return returnedValue;
+	      };
+	    };
+	  };
+	}
+
+	module.exports = createLogger;
 
 /***/ }
 /******/ ]);

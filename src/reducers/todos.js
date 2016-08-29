@@ -31,6 +31,8 @@ const todos = (state = [], action) => {
         ...state,
         todo(undefined, action)
       ]
+    case 'DELETE_TODO':
+      return []
     case 'TOGGLE_TODO':
       return state.map(t =>
         todo(t, action)

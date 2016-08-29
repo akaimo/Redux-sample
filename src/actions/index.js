@@ -11,6 +11,12 @@ export const addTodo = (text) => {
   }
 }
 
+export  const  deleteTodo = () => {
+  return {
+    type: 'DELETE_TODO'
+  }
+}
+
 export const setVisibilityFilter = (filter) => {
   return {
     type: 'SET_VISIBILITY_FILTER',
